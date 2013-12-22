@@ -45,6 +45,7 @@ class Main extends Sprite {
 	var snake:Array <Point>;
 	var snakeDirection:Int;
 	var score:Int;
+	var frames:Int;
 	var gameboardCorner:Point;
 
 	public function new () {
@@ -54,22 +55,20 @@ class Main extends Sprite {
 		apple = randomApple();
 		gameState = GAMEPLAY;
 		score = 0;
-		render();
-
-
+		frames = 15;
+		drawGUI();
+		stage.addEventListener (Event.ENTER_FRAME, render);
 		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
 	}
 
-	public function render():Void{
-		drawGUI();
-		drawSnake();
-		drawApple();
-		/*while(gameState != GAMEOVER) {
-			//getKeyboardInput();
-			//drawSnake();
-			//drawApple();
-		}*/
-
+	public function render(event:Event):Void {
+		if (frames == 15){
+			updateSnake();
+			drawSnake();
+			drawApple();
+			frames = 0;
+		}
+		frames++;
 	}
 	
 	public function drawGUI():Void {
@@ -133,6 +132,33 @@ class Main extends Sprite {
 
 	}
 
+
+	public function updateSnake():Void {
+		var x:Int, y:Int, xOffset:Int, yOffset:Int;
+		xOffset = 0;
+		yOffset = 0;
+
+		if (snakeDirection == UP){
+			yOffset = -1;
+		} else if (snakeDirection == DOWN){
+			yOffset = 1;
+		} else if (snakeDirection == LEFT){
+			xOffset = -1;
+		} else if (snakeDirection == RIGHT){
+			xOffset = 1;
+		}
+
+		x = Math.floor(snake[snake.length-1].x+xOffset);
+		y = Math.floor(snake[snake.length-1].y+yOffset);
+
+		if (isValidMove(x, y)){
+			snake.push(new Point(x, y));
+			snake.shift();
+		} else {
+			gameState = GAMEOVER;
+		}
+	}
+
 	// checks to see if the location given is within the bounds of the board
 	// and is not occupied by a snake piece
 	public function isValidMove(x:Int, y:Int):Bool {
@@ -170,6 +196,18 @@ class Main extends Sprite {
 	}
 
 	public function keyDown(event:KeyboardEvent):Void {
-
+		if (event.keyCode == Keyboard.A){
+			snakeDirection = (snakeDirection != RIGHT) ? LEFT : RIGHT;
+		}
+		if (event.keyCode == Keyboard.W){
+			snakeDirection = (snakeDirection != DOWN) ? UP : DOWN;
+		}
+		if (event.keyCode == Keyboard.S){
+			snakeDirection = (snakeDirection != UP) ? DOWN : UP;
+		}
+		if (event.keyCode == Keyboard.D){
+			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
+		}
+			
 	}	
 }
