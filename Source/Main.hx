@@ -8,6 +8,7 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.geom.Point;
+import View;
 
 
 
