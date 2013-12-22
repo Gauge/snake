@@ -18,7 +18,6 @@ class Main extends Sprite {
 	static var GAMECOLS = 40;
 	static var GAMENAME = "SNAKE";
 	static var GAMESPEED = 5; // tiles per second
-	static var TILESIZE = 5;
 	
 	// user direction 
 	static var UP = 1;
@@ -32,23 +31,12 @@ class Main extends Sprite {
 	static var GAMEOVER = 3 
 	var gameState:Int;
 	
-	// apple stuff
 	var apple:Point;
-	var apple:Graphic:Sprite;
 	var appleEatten:Point;
 
-	// snake stuff
 	var snake:Array <Array <Point>>;
-	var snakeGraphic:Sprite;
-	var snakeDirection:String;
-	
+	var snakeDirection:Int;
 	var score:Int;
-
-	var gameBackground:Sprite;
-	var titleBox:Sprite;
-	var footerBox:Sprite;
-	var scoreBox:TextField;
-
 
 	
 	public function new () {
