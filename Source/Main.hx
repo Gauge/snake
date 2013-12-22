@@ -52,12 +52,33 @@ class Main extends Sprite {
 
 	
 	public function new () {
-		
 		super ();
+
+
+
 		
 		
 		
 	}
+
+public function initGame():Void{}
+
+public function render():Void{}
+
+public function drawGUI():Void{}
+
+public function drawSnake():Void{}
+
+public function drawApple():Void{}
+
+public function updateSnake():Void{}
+
+public function isValidMove():Bool{}
+
+public function randomApple():Void{}
+
+public function getKeyboardInput():Void{}
+
 	
 	
 }
