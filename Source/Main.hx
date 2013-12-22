@@ -8,6 +8,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.geom.Point;
+import flash.Lib;
+import openfl.Assets;
 import View;
 
 
@@ -37,7 +39,6 @@ class Main extends Sprite {
 	var snake:Array <Array <Point>>;
 	var snakeDirection:Int;
 	var score:Int;
-
 	
 	public function new () {
 		super ();
@@ -52,8 +53,6 @@ class Main extends Sprite {
 public function initGame():Void{}
 
 public function render():Void{}
-
-public function drawGUI():Void{}
 
 public function drawSnake():Void{}
 
