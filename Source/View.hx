@@ -19,30 +19,32 @@ class View extends Sprite {
 	var footerBox:Sprite;
 	var scoreBox:TextField;
 
-	public function new (){
-		super();
-		
-	}
+	
 	
 	
 	public function drawGUI():Void{
+		var gameScreen = Main.gameScreen;
+
 		trace('made it here');
 		var screenSize = new Point(400, 400);
 		var gameSize = new Point (TILESIZE * Main.BOARDCOLS, TILESIZE * Main.BOARDROWS);
-		var gamePosition = new Point((gameSize.x / 2) + (screenSize.x / 2), (gameSize.y / 2) + (screenSize.y / 2));
+		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
+
+		trace(gameSize);
+		trace(gamePosition);
 
 		gameBackground = new Sprite();
-		gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
+		gameBackground.graphics.beginFill(0xFFFFFF, 1.0);
 		gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y + 50, gameSize.x, gameSize.y);
-		addChild(gameBackground);
+		gameScreen.addChild(gameBackground);
 
 		var titleSize = new Point(gameSize.x - 80, 40);
 		var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
 
 		titleBox = new Sprite();
-		titleBox.graphics.beginFill(0xA8A8A8, 1.0);
+		titleBox.graphics.beginFill(0x000000, 1.0);
 		titleBox.graphics.drawRoundRect(titlePosition.x, titlePosition.y, titleSize.x, titleSize.y, 8);
-		addChild(titleBox);
+		gameScreen.addChild(titleBox);
 
 		var titleText = new TextField();
 		titleText.width = titleSize.x - 20;
@@ -50,5 +52,8 @@ class View extends Sprite {
 
 
 	}
-
+public function new (){
+		super();
+		
+	}
 }

@@ -10,17 +10,17 @@ import flash.ui.Keyboard;
 import flash.geom.Point;
 import flash.Lib;
 import openfl.Assets;
-import View;
 
 
 
-class Main {
+class Main extends Sprite{
 
 	public static var BOARDROWS = 40;
 	public static var BOARDCOLS = 40;
 	static var GAMENAME = "SNAKE";
 	static var GAMESPEED = 5; // tiles per second
-	
+	public static var TILESIZE = 5;
+
 	// user direction 
 	static var UP = 1;
 	static var DOWN = 2;
@@ -33,6 +33,14 @@ class Main {
 	static var GAMEOVER = 3;
 	var gameState:Int;
 	
+	// graphic and display
+	var appleGraphic:Sprite;
+	var snakeGraphic:Sprite;
+	var gameBackground:Sprite;
+	var titleBox:Sprite;
+	var footerBox:Sprite;
+	var scoreBox:TextField;
+
 	var apple:Point;
 	var appleEatten:Point;
 
@@ -40,18 +48,47 @@ class Main {
 	var snakeDirection:Int;
 	var score:Int;
 
-	var view:View;
+
 
 
 	public function new () {
+		super();
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		apple = randomApple();
 		render();
 	}
 
 public function render():Void{
-	view = new View();
-	view.drawGUI();
+	drawGUI();
+
+}
+	
+	
+public function drawGUI():Void{
+
+	trace('made it here');
+	var screenSize = new Point(stage.stageWidth, stage.stageHeight);
+	var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
+	var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
+
+	gameBackground = new Sprite();
+	gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
+	gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y, gameSize.x, gameSize.y);
+	addChild(gameBackground);
+
+	var titleSize = new Point(gameSize.x - 80, 40);
+	var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
+	trace(titlePosition.y);
+
+	titleBox = new Sprite();
+	titleBox.graphics.beginFill(0xA8A8A8, 1.0);
+	titleBox.graphics.drawRoundRect(titlePosition.x, titlePosition.y, titleSize.x, titleSize.y, 5);
+	addChild(titleBox);
+
+	var titleText = new TextField();
+	titleText.width = titleSize.x - 20;
+	titleText.height = titleSize.y - 10;
+
 
 }
 
