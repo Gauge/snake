@@ -14,8 +14,8 @@ import View;
 
 class Main extends Sprite {
 
-	static var GAMEROWS = 40;
-	static var GAMECOLS = 40;
+	public static var BOARDROWS = 40;
+	public static var BOARDCOLS = 40;
 	static var GAMENAME = "SNAKE";
 	static var GAMESPEED = 5; // tiles per second
 	
@@ -56,7 +56,23 @@ public function drawApple():Void{}
 
 public function updateSnake():Void{}
 
-public function isValidMove():Bool{}
+// checks to see if the location given is within the bounds of the board
+// and is not occupied by a snake piece
+public function isValidMove(location:Point):Bool {
+	if (location.x >= 0 && location.x < BOARDROWS &&
+		location.y >= 0 && location.y < BOARDCOLS){
+
+		for (i in 0...snake.length){
+			if (snake[i].x == location.x && snake[i].y == location.y){
+				return false
+			}
+		}
+		return true;
+	
+	} else {
+		return false;
+	} 
+}
 
 public function randomApple():Point {
 	// get random location
