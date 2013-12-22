@@ -6,6 +6,7 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.ui.Keyboard;
 import flash.geom.Point;
 import flash.Lib;
@@ -58,45 +59,51 @@ class Main extends Sprite{
 		render();
 	}
 
-public function render():Void{
-	drawGUI();
+	public function render():Void{
+		drawGUI();
 
-}
+	}
 	
 	
-public function drawGUI():Void{
+	public function drawGUI():Void{
 
-	trace('made it here');
-	var screenSize = new Point(stage.stageWidth, stage.stageHeight);
-	var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
-	var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
+		trace('made it here');
+		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
+		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
+		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
 
-	gameBackground = new Sprite();
-	gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
-	gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y, gameSize.x, gameSize.y);
-	addChild(gameBackground);
+		gameBackground = new Sprite();
+		gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
+		gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y, gameSize.x, gameSize.y);
+		addChild(gameBackground);
 
-	var titleSize = new Point(gameSize.x - 80, 40);
-	var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
-	trace(titlePosition.y);
+		var titleSize = new Point(gameSize.x - 80, 40);
+		var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
+		trace(titlePosition.y);
 
-	titleBox = new Sprite();
-	titleBox.graphics.beginFill(0xA8A8A8, 1.0);
-	titleBox.graphics.drawRoundRect(titlePosition.x, titlePosition.y, titleSize.x, titleSize.y, 5);
-	addChild(titleBox);
+		titleBox = new Sprite();
+		titleBox.graphics.beginFill(0xA8A8A8, 1.0);
+		titleBox.graphics.drawRoundRect(titlePosition.x, titlePosition.y, titleSize.x, titleSize.y, 5);
+		addChild(titleBox);
 
-	var titleText = new TextField();
-	titleText.width = titleSize.x - 20;
-	titleText.height = titleSize.y - 10;
+		var titleText = new TextField();
+		titleText.width = titleSize.x - 20;
+		titleText.height = titleSize.y - 10;
+		titleText.x = titlePosition.x + 10;
+		titleText.y = titlePosition.y + 5;
+		var textStyle = new TextFormat();
+		textStyle.align = TextFormatAlign.CENTER;
+		titleText.defaultTextFormat = textStyle;
+		titleText.text = GAMENAME;
 
 
-}
+	}
 
-public function drawSnake():Void{}
+	public function drawSnake():Void{}
 
-public function drawApple():Void{}
+	public function drawApple():Void{}
 
-public function updateSnake():Void{}
+	public function updateSnake():Void{}
 
 // checks to see if the location given is within the bounds of the board
 // and is not occupied by a snake piece
@@ -110,13 +117,13 @@ public function isValidMove(location:Point):Bool {
 			}
 		}
 		return true;
-	
-	} else {
-		return false;
-	} 
-}
 
-public function randomApple():Point {
+		} else {
+			return false;
+		} 
+	}
+
+	public function randomApple():Point {
 	// get random location
 	var x = Std.random(BOARDROWS);
 	var y = Std.random(BOARDCOLS);
@@ -136,6 +143,6 @@ public function randomApple():Point {
 
 public function getKeyboardInput():Void{}
 
-	
-	
+
+
 }
