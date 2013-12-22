@@ -58,10 +58,15 @@ class Main extends Sprite {
 	public function render():Void{
 		drawGUI();
 
+		while(gameState != GAMEOVER) {
+			//getKeyboardInput();
+			//drawSnake();
+			//drawApple();
+		}
+
 	}
 	
-	
-	public function drawGUI():Void{
+	public function drawGUI():Void {
 		trace('made it here');
 		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
 		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
@@ -84,6 +89,14 @@ class Main extends Sprite {
 		var titleText = new TextField();
 		titleText.width = titleSize.x - 20;
 		titleText.height = titleSize.y - 10;
+	}
+
+	public function drawSnake():Void {
+
+	}
+
+	public function drawApple():Void {
+
 	}
 
 	// checks to see if the location given is within the bounds of the board
@@ -122,8 +135,7 @@ class Main extends Sprite {
 
 	}
 
-	public function getKeyboardInput():Void{}
+	public function getKeyboardInput():Void {
 
-	
-	
+	}	
 }
