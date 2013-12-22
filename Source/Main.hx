@@ -44,6 +44,7 @@ class Main extends Sprite {
 	var snake:Array <Point>;
 	var snakeDirection:Int;
 	var score:Int;
+	var frames:Int;
 
 	public function new () {
 		super();
@@ -52,18 +53,19 @@ class Main extends Sprite {
 		apple = randomApple();
 		gameState = GAMEPLAY;
 		score = 0;
-		render();
+		frames = 15;
+		drawGUI();
+		//stage.addEventListener (Event.ENTER_FRAME, render);
 	}
 
-	public function render():Void{
-		drawGUI();
-
-		while(gameState != GAMEOVER) {
-			//getKeyboardInput();
-			//drawSnake();
-			//drawApple();
+	public function render():Void {
+		if (frames == 15){
+			updateSnake();
+			drawSnake();
+			drawApple();
+			frames = 0;
 		}
-
+		frames++;
 	}
 	
 	public function drawGUI():Void {
@@ -97,6 +99,33 @@ class Main extends Sprite {
 
 	public function drawApple():Void {
 
+	}
+
+
+	public function updateSnake():Void {
+		var x:Int, y:Int, xOffset:Int, yOffset:Int;
+		xOffset = 0;
+		yOffset = 0;
+
+		if (snakeDirection == UP){
+			xOffset = -1;
+		} else if (snakeDirection == DOWN){
+			xOffset = 1;
+		} else if (snakeDirection == LEFT){
+			yOffset = -1;
+		} else if (snakeDirection == RIGHT){
+			yOffset = 1;
+		}
+
+		x = Math.floor(snake[snake.length-1].x+xOffset);
+		y = Math.floor(snake[snake.length-1].y+yOffset);
+
+		if (isValidMove(x, y)){
+			snake.push(new Point(x, y));
+			snake.shift();
+		} else {
+			gameState = GAMEOVER;
+		}
 	}
 
 	// checks to see if the location given is within the bounds of the board
