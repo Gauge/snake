@@ -40,34 +40,54 @@ class Main extends Sprite {
 	var snakeDirection:Int;
 	var score:Int;
 
-	var view:View;
-
-
 	public function new () {
 		super ();
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
+		snakeDirection = RIGHT;
 		apple = randomApple();
+		gameState = GAMEPLAY;
+		score = 0;
 		render();
 	}
 
-public function render():Void{
-	view.drawGUI();
+public function render():Void {}
+
+public function updateSnake():Void {
+	var x:Int, y:Int;
+	var xOffset:Int;
+	var yOffset:Int;
+	xOffset = 0;
+	yOffset = 0;
+
+	if (snakeDirection == UP) {
+		yOffset = -1;
+	} else if (snakeDirection == DOWN) {
+		yOffset = 1;
+	} else if (snakeDirection == LEFT) {
+		xOffset = -1;
+	} else if (snakeDirection == RIGHT) {
+		xOffset = 1;
+	}
+	// get location of the move
+	x = Math.floor(snake[snake.length-1].x+xOffset);
+	y = Math.floor(snake[snake.length-1].y+yOffset);
+	// test to see if move is valid
+	if (isValidMove(x, y)) {
+		snake.shift();
+		snake.push(new Point(x, y));
+	} else {
+		gameState = GAMEOVER;
+	}
 }
-
-public function drawSnake():Void{}
-
-public function drawApple():Void{}
-
-public function updateSnake():Void{}
 
 // checks to see if the location given is within the bounds of the board
 // and is not occupied by a snake piece
-public function isValidMove(location:Point):Bool {
-	if (location.x >= 0 && location.x < BOARDROWS &&
-		location.y >= 0 && location.y < BOARDCOLS){
+public function isValidMove(x:Int, y:Int):Bool {
+	if (x >= 0 && x < BOARDROWS &&
+		y >= 0 && y < BOARDCOLS){
 
 		for (i in 0...snake.length){
-			if (snake[i].x == location.x && snake[i].y == location.y){
+			if (snake[i].x == x && snake[i].y == y){
 				return false;
 			}
 		}
