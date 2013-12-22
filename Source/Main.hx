@@ -46,6 +46,7 @@ class Main extends Sprite {
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		apple = randomApple();
 		render();
+		View.drawGUI();
 	}
 
 public function render():Void{}
