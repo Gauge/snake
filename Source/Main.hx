@@ -40,6 +40,8 @@ class Main extends Sprite {
 	var snakeDirection:Int;
 	var score:Int;
 
+	var view:View;
+
 
 	public function new () {
 		super ();
@@ -49,7 +51,9 @@ class Main extends Sprite {
 		View.drawGUI();
 	}
 
-public function render():Void{}
+public function render():Void{
+	view.drawGUI();
+}
 
 public function drawSnake():Void{}
 
