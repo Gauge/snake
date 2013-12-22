@@ -38,18 +38,13 @@ class Main extends Sprite {
 	var snakeDirection:Int;
 	var score:Int;
 
-	
+	// init game
 	public function new () {
 		super ();
-
-
-
-		
-		
-		
+		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
+		apple = randomApple();
+		render();
 	}
-
-public function initGame():Void{}
 
 public function render():Void{}
 
@@ -63,7 +58,23 @@ public function updateSnake():Void{}
 
 public function isValidMove():Bool{}
 
-public function randomApple():Void{}
+public function randomApple():Point {
+	// get random location
+	var x = Std.random(GAMEROWS);
+	var y = Std.random(GAMECOLS):
+	// check to see if there is a snake at that location
+	var isFound = false;
+	for (i in 0...snake.length){
+		if (snake[i].x == x && snake[i].y == y) {
+			isFound = true;
+			break;
+		}
+	}
+	// if the snake exists there get a new point
+	// otherwise return the point
+	return isFound ? randomApple() : new Point(x, y);
+
+}
 
 public function getKeyboardInput():Void{}
 
