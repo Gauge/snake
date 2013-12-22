@@ -17,7 +17,7 @@ class Main extends Sprite {
 	public static var BOARDCOLS = 40;
 	static var GAMENAME = "SNAKE";
 	static var GAMESPEED = 5; // tiles per second
-	public static var TILESIZE = 5;
+	public static var TILESIZE = 6;
 
 	// user direction 
 	static var UP = 1;
@@ -95,13 +95,14 @@ class Main extends Sprite {
 
 		var titleText = new TextField();
 		var format = new TextFormat();
-		titleText.width = titleSize.x - 20;
-		titleText.height = titleSize.y - 10;
-		titleText.x = titlePosition.x - 10;
-		titleText.y = titlePosition.y - 5;
+		titleText.width = titleSize.x + 10;
+		titleText.height = titleSize.y + 10;
+		titleText.x = titlePosition.x;
+		titleText.y = titlePosition.y + 5;
 		format.align = TextFormatAlign.CENTER;
 		titleText.defaultTextFormat = format;
 		titleText.text = GAMENAME;
+		titleBox.addChild(titleText);
 
 
 		//var scoreSize = new Point(titlePosition.x + )
