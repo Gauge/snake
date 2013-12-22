@@ -1,6 +1,5 @@
 package;
 
-
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -10,9 +9,6 @@ import flash.ui.Keyboard;
 import flash.geom.Point;
 import flash.Lib;
 import openfl.Assets;
-import View;
-
-
 
 class Main extends Sprite {
 
@@ -20,7 +16,8 @@ class Main extends Sprite {
 	public static var BOARDCOLS = 40;
 	static var GAMENAME = "SNAKE";
 	static var GAMESPEED = 5; // tiles per second
-	
+	public static var TILESIZE = 5;
+
 	// user direction 
 	static var UP = 1;
 	static var DOWN = 2;
@@ -33,6 +30,14 @@ class Main extends Sprite {
 	static var GAMEOVER = 3;
 	var gameState:Int;
 	
+	// graphic and display
+	var appleGraphic:Sprite;
+	var snakeGraphic:Sprite;
+	var gameBackground:Sprite;
+	var titleBox:Sprite;
+	var footerBox:Sprite;
+	var scoreBox:TextField;
+
 	var apple:Point;
 	var appleEatten:Point;
 
@@ -41,7 +46,7 @@ class Main extends Sprite {
 	var score:Int;
 
 	public function new () {
-		super ();
+		super();
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		snakeDirection = RIGHT;
 		apple = randomApple();
@@ -50,73 +55,74 @@ class Main extends Sprite {
 		render();
 	}
 
-public function render():Void {}
+	public function render():Void{
+		drawGUI();
 
-public function updateSnake():Void {
-	var x:Int, y:Int;
-	var xOffset:Int;
-	var yOffset:Int;
-	xOffset = 0;
-	yOffset = 0;
-
-	if (snakeDirection == UP) {
-		yOffset = -1;
-	} else if (snakeDirection == DOWN) {
-		yOffset = 1;
-	} else if (snakeDirection == LEFT) {
-		xOffset = -1;
-	} else if (snakeDirection == RIGHT) {
-		xOffset = 1;
 	}
-	// get location of the move
-	x = Math.floor(snake[snake.length-1].x+xOffset);
-	y = Math.floor(snake[snake.length-1].y+yOffset);
-	// test to see if move is valid
-	if (isValidMove(x, y)) {
-		snake.shift();
-		snake.push(new Point(x, y));
-	} else {
-		gameState = GAMEOVER;
+	
+	
+	public function drawGUI():Void{
+		trace('made it here');
+		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
+		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
+		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
+
+		gameBackground = new Sprite();
+		gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
+		gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y, gameSize.x, gameSize.y);
+		addChild(gameBackground);
+
+		var titleSize = new Point(gameSize.x - 80, 40);
+		var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
+		trace(titlePosition.y);
+
+		titleBox = new Sprite();
+		titleBox.graphics.beginFill(0xA8A8A8, 1.0);
+		titleBox.graphics.drawRoundRect(titlePosition.x, titlePosition.y, titleSize.x, titleSize.y, 5);
+		addChild(titleBox);
+
+		var titleText = new TextField();
+		titleText.width = titleSize.x - 20;
+		titleText.height = titleSize.y - 10;
 	}
-}
 
-// checks to see if the location given is within the bounds of the board
-// and is not occupied by a snake piece
-public function isValidMove(x:Int, y:Int):Bool {
-	if (x >= 0 && x < BOARDROWS &&
-		y >= 0 && y < BOARDCOLS){
+	// checks to see if the location given is within the bounds of the board
+	// and is not occupied by a snake piece
+	public function isValidMove(x:Int, y:Int):Bool {
+		if (x >= 0 && x < BOARDROWS &&
+			y >= 0 && y < BOARDCOLS){
 
+			for (i in 0...snake.length){
+				if (snake[i].x == x && snake[i].y == y){
+					return false;
+				}
+			}
+			return true;
+		
+		} else {
+			return false;
+		} 
+	}
+
+	public function randomApple():Point {
+		// get random location
+		var x = Std.random(BOARDROWS);
+		var y = Std.random(BOARDCOLS);
+		// check to see if there is a snake at that location
+		var isFound = false;
 		for (i in 0...snake.length){
-			if (snake[i].x == x && snake[i].y == y){
-				return false;
+			if (snake[i].x == x && snake[i].y == y) {
+				isFound = true;
+				break;
 			}
 		}
-		return true;
-	
-	} else {
-		return false;
-	} 
-}
+		// if the snake exists there get a new point
+		// otherwise return the point
+		return isFound ? randomApple() : new Point(x, y);
 
-public function randomApple():Point {
-	// get random location
-	var x = Std.random(BOARDROWS);
-	var y = Std.random(BOARDCOLS);
-	// check to see if there is a snake at that location
-	var isFound = false;
-	for (i in 0...snake.length){
-		if (snake[i].x == x && snake[i].y == y) {
-			isFound = true;
-			break;
-		}
 	}
-	// if the snake exists there get a new point
-	// otherwise return the point
-	return isFound ? randomApple() : new Point(x, y);
 
-}
-
-public function getKeyboardInput():Void{}
+	public function getKeyboardInput():Void{}
 
 	
 	
