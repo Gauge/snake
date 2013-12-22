@@ -5,6 +5,7 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 import flash.ui.Keyboard;
 import flash.geom.Point;
 import flash.Lib;
@@ -45,6 +46,7 @@ class Main extends Sprite {
 	var snakeDirection:Int;
 	var score:Int;
 	var frames:Int;
+	var gameboardCorner:Point;
 
 	public function new () {
 		super();
@@ -55,10 +57,11 @@ class Main extends Sprite {
 		score = 0;
 		frames = 15;
 		drawGUI();
-		//stage.addEventListener (Event.ENTER_FRAME, render);
+		stage.addEventListener (Event.ENTER_FRAME, render);
+		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
 	}
 
-	public function render():Void {
+	public function render(event:Event):Void {
 		if (frames == 15){
 			updateSnake();
 			drawSnake();
@@ -73,6 +76,7 @@ class Main extends Sprite {
 		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
 		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
 		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
+		gameboardCorner = gamePosition;
 
 		gameBackground = new Sprite();
 		gameBackground.graphics.beginFill(0xA8A8A8, 1.0);
@@ -89,11 +93,30 @@ class Main extends Sprite {
 		addChild(titleBox);
 
 		var titleText = new TextField();
+		var format = new TextFormat();
 		titleText.width = titleSize.x - 20;
 		titleText.height = titleSize.y - 10;
+		titleText.x = titlePosition.x - 10;
+		titleText.y = titlePosition.y - 5;
+		format.align = TextFormatAlign.CENTER;
+		titleText.defaultTextFormat = format;
+		titleText.text = GAMENAME;
+
+
+		//var scoreSize = new Point(titlePosition.x + )
 	}
 
 	public function drawSnake():Void {
+		if (snakeGraphic == null) snakeGraphic = new Sprite();
+		snakeGraphic.graphics.clear();
+		for(i in 0...snake.length) {
+			var x = (snake[i].x * TILESIZE) + gameboardCorner.x;
+			var y = (snake[i].y * TILESIZE) + gameboardCorner.y;
+
+			snakeGraphic.graphics.beginFill(0x000000, 1.0);
+			snakeGraphic.graphics.drawRect(x, y, TILESIZE, TILESIZE);
+			addChild(snakeGraphic);
+		}
 
 	}
 
@@ -108,13 +131,13 @@ class Main extends Sprite {
 		yOffset = 0;
 
 		if (snakeDirection == UP){
-			xOffset = -1;
-		} else if (snakeDirection == DOWN){
-			xOffset = 1;
-		} else if (snakeDirection == LEFT){
 			yOffset = -1;
-		} else if (snakeDirection == RIGHT){
+		} else if (snakeDirection == DOWN){
 			yOffset = 1;
+		} else if (snakeDirection == LEFT){
+			xOffset = -1;
+		} else if (snakeDirection == RIGHT){
+			xOffset = 1;
 		}
 
 		x = Math.floor(snake[snake.length-1].x+xOffset);
@@ -164,7 +187,19 @@ class Main extends Sprite {
 
 	}
 
-	public function getKeyboardInput():Void {
-
+	public function keyDown(event:KeyboardEvent):Void {
+		if (event.keyCode == Keyboard.A){
+			snakeDirection = (snakeDirection != RIGHT) ? LEFT : RIGHT;
+		}
+		if (event.keyCode == Keyboard.W){
+			snakeDirection = (snakeDirection != DOWN) ? UP : DOWN;
+		}
+		if (event.keyCode == Keyboard.S){
+			snakeDirection = (snakeDirection != UP) ? DOWN : UP;
+		}
+		if (event.keyCode == Keyboard.D){
+			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
+		}
+			
 	}	
 }
