@@ -8,7 +8,7 @@ import flash.geom.Point;
 import flash.Lib;
 import openfl.Assets;
 
-class View extends Main {
+class View extends Sprite {
 
 	public static var TILESIZE = 5;
 
@@ -21,13 +21,13 @@ class View extends Main {
 
 	public function new (){
 		super();
-	
+		
 	}
 	
 	
 	public function drawGUI():Void{
 		trace('made it here');
-		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
+		var screenSize = new Point(400, 400);
 		var gameSize = new Point (TILESIZE * Main.BOARDCOLS, TILESIZE * Main.BOARDROWS);
 		var gamePosition = new Point((gameSize.x / 2) + (screenSize.x / 2), (gameSize.y / 2) + (screenSize.y / 2));
 
@@ -45,6 +45,8 @@ class View extends Main {
 		addChild(titleBox);
 
 		var titleText = new TextField();
+		titleText.width = titleSize.x - 20;
+		titleText.height = titleSize.y - 10;
 
 
 	}

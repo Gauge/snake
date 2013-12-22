@@ -14,7 +14,7 @@ import View;
 
 
 
-class Main extends Sprite {
+class Main {
 
 	public static var BOARDROWS = 40;
 	public static var BOARDCOLS = 40;
@@ -44,15 +44,15 @@ class Main extends Sprite {
 
 
 	public function new () {
-		super ();
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		apple = randomApple();
 		render();
-		View.drawGUI();
 	}
 
 public function render():Void{
+	view = new View();
 	view.drawGUI();
+
 }
 
 public function drawSnake():Void{}
