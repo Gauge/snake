@@ -28,15 +28,15 @@ class Main extends Sprite {
 	static var LEFT = 4;
 
 	// game state
-	static var GAMEPLAY = 1
-	static var GAMEPASED = 2
-	static var GAMEOVER = 3 
+	static var GAMEPLAY = 1;
+	static var GAMEPASED = 2;
+	static var GAMEOVER = 3;
 	var gameState:Int;
 	
 	var apple:Point;
 	var appleEatten:Point;
 
-	var snake:Array <Array <Point>>;
+	var snake:Array <Point>;
 	var snakeDirection:Int;
 	var score:Int;
 
@@ -64,7 +64,7 @@ public function isValidMove(location:Point):Bool {
 
 		for (i in 0...snake.length){
 			if (snake[i].x == location.x && snake[i].y == location.y){
-				return false
+				return false;
 			}
 		}
 		return true;
@@ -76,8 +76,8 @@ public function isValidMove(location:Point):Bool {
 
 public function randomApple():Point {
 	// get random location
-	var x = Std.random(GAMEROWS);
-	var y = Std.random(GAMECOLS):
+	var x = Std.random(BOARDROWS);
+	var y = Std.random(BOARDCOLS);
 	// check to see if there is a snake at that location
 	var isFound = false;
 	for (i in 0...snake.length){
