@@ -63,6 +63,7 @@ class Main extends Sprite {
 	public function render():Void{
 		drawGUI();
 		drawSnake();
+		drawApple();
 		/*while(gameState != GAMEOVER) {
 			//getKeyboardInput();
 			//drawSnake();
@@ -121,6 +122,13 @@ class Main extends Sprite {
 	}
 
 	public function drawApple():Void {
+		if(appleGraphic == null) appleGraphic = new Sprite();
+		appleGraphic.graphics.clear();
+		var x = (apple.x * TILESIZE) + gameboardCorner.x;
+		var y = (apple.y * TILESIZE) + gameboardCorner.y;
+		appleGraphic.graphics.beginFill(0xFF0000, 1.0);
+		appleGraphic.graphics.drawRect(x, y, TILESIZE, TILESIZE);
+		addChild(appleGraphic);
 
 	}
 
