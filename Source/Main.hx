@@ -48,6 +48,7 @@ class Main extends Sprite {
 	var frames:Int;
 	var gameboardCorner:Point;
 
+
 	public function new () {
 		super();
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
@@ -138,15 +139,15 @@ class Main extends Sprite {
 		xOffset = 0;
 		yOffset = 0;
 
-		if (snakeDirection == UP){
-			yOffset = -1;
-		} else if (snakeDirection == DOWN){
-			yOffset = 1;
-		} else if (snakeDirection == LEFT){
-			xOffset = -1;
-		} else if (snakeDirection == RIGHT){
-			xOffset = 1;
-		}
+		if (snakeDirection == UP) yOffset = -1;
+		
+		else if (snakeDirection == DOWN) yOffset = 1;
+		
+		else if (snakeDirection == LEFT) xOffset = -1;
+		
+		else if (snakeDirection == RIGHT) xOffset = 1;
+		
+	
 
 		x = Math.floor(snake[snake.length-1].x+xOffset);
 		y = Math.floor(snake[snake.length-1].y+yOffset);
