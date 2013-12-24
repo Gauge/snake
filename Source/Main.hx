@@ -56,14 +56,14 @@ class Main extends Sprite {
 		apple = randomApple();
 		gameState = GAMEPLAY;
 		score = 0;
-		frames = 8;
+		frames = 5;
 		drawGUI();
 		stage.addEventListener (Event.ENTER_FRAME, render);
 		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
 	}
 
 	public function render(event:Event):Void {
-		if (frames == 8){
+		if (frames == 5){
 			updateSnake();
 			drawApple();
 			drawSnake();
@@ -72,9 +72,7 @@ class Main extends Sprite {
 		}
 		frames++;
 
-		if(appleEatten != null){
 
-		}
 	}
 	
 	public function drawGUI():Void {
@@ -154,6 +152,7 @@ class Main extends Sprite {
 		if (isValidMove(x, y)){
 			snake.push(new Point(x, y));
 			snake.shift();
+			if(appleEatten != null) growSnake();
 		} 
 		else {
 			gameState = GAMEOVER;
@@ -207,9 +206,17 @@ class Main extends Sprite {
 	}
 
 	public function pointsOverlap(point1:Point, point2:Point):Bool {
-		trace(point1, point2);
 		if(point1.x == point2.x && point1.y == point2.y) return true;
 		else return false;
+	}
+
+	private function growSnake(){
+		trace('trying hard to grow big and strong');
+		if(pointsOverlap(appleEatten, snake[0])){
+			snake.insert(0, appleEatten);
+			appleEatten = null;
+			
+		}
 	}
 
 	public function keyDown(event:KeyboardEvent):Void {
@@ -238,6 +245,6 @@ class Main extends Sprite {
 			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
 		}
 
-			
+
 	}	
 }
