@@ -56,20 +56,25 @@ class Main extends Sprite {
 		apple = randomApple();
 		gameState = GAMEPLAY;
 		score = 0;
-		frames = 15;
+		frames = 8;
 		drawGUI();
 		stage.addEventListener (Event.ENTER_FRAME, render);
 		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
 	}
 
 	public function render(event:Event):Void {
-		if (frames == 15){
+		if (frames == 8){
 			updateSnake();
-			drawSnake();
 			drawApple();
+			drawSnake();
+			
 			frames = 0;
 		}
 		frames++;
+
+		if(appleEatten != null){
+
+		}
 	}
 	
 	public function drawGUI():Void {
@@ -140,14 +145,9 @@ class Main extends Sprite {
 		yOffset = 0;
 
 		if (snakeDirection == UP) yOffset = -1;
-		
 		else if (snakeDirection == DOWN) yOffset = 1;
-		
 		else if (snakeDirection == LEFT) xOffset = -1;
-		
 		else if (snakeDirection == RIGHT) xOffset = 1;
-		
-	
 
 		x = Math.floor(snake[snake.length-1].x+xOffset);
 		y = Math.floor(snake[snake.length-1].y+yOffset);
@@ -155,7 +155,8 @@ class Main extends Sprite {
 		if (isValidMove(x, y)){
 			snake.push(new Point(x, y));
 			snake.shift();
-		} else {
+		} 
+		else {
 			gameState = GAMEOVER;
 		}
 	}
@@ -165,17 +166,27 @@ class Main extends Sprite {
 	public function isValidMove(x:Int, y:Int):Bool {
 		if (x >= 0 && x < BOARDROWS &&
 			y >= 0 && y < BOARDCOLS){
-
+			checkForApple();
 			for (i in 0...snake.length){
 				if (snake[i].x == x && snake[i].y == y){
+
 					return false;
 				}
 			}
 			return true;
-		
-		} else {
+		} 
+		else {
 			return false;
 		} 
+	}
+
+	private function checkForApple(){
+		//trace(snake[0]+" "+apple);
+		if(snake[snake.length-1] == apple){
+			trace("eatting");
+			if(appleEatten == null) appleEatten = apple;
+			apple = randomApple();
+		}
 	}
 
 	public function randomApple():Point {
