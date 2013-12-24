@@ -209,6 +209,19 @@ class Main extends Sprite {
 		if (event.keyCode == Keyboard.D){
 			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
 		}
+		if (event.keyCode == Keyboard.LEFT){
+			snakeDirection = (snakeDirection != RIGHT) ? LEFT : RIGHT;
+		}
+		if (event.keyCode == Keyboard.UP){
+			snakeDirection = (snakeDirection != DOWN) ? UP : DOWN;
+		}
+		if (event.keyCode == Keyboard.DOWN){
+			snakeDirection = (snakeDirection != UP) ? DOWN : UP;
+		}
+		if (event.keyCode == Keyboard.RIGHT){
+			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
+		}
+
 			
 	}	
 }
