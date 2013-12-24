@@ -78,7 +78,6 @@ class Main extends Sprite {
 	}
 	
 	public function drawGUI():Void {
-		trace('made it here');
 		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
 		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
 		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
@@ -91,7 +90,7 @@ class Main extends Sprite {
 
 		var titleSize = new Point(gameSize.x - 80, 40);
 		var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
-		trace(titlePosition.y);
+
 
 		titleBox = new Sprite();
 		titleBox.graphics.beginFill(0xA8A8A8, 1.0);
@@ -182,7 +181,7 @@ class Main extends Sprite {
 
 	private function checkForApple(){
 		//trace(snake[0]+" "+apple);
-		if(snake[snake.length-1] == apple){
+		if(pointsOverlap(snake[snake.length-1], apple)){
 			trace("eatting");
 			if(appleEatten == null) appleEatten = apple;
 			apple = randomApple();
@@ -205,6 +204,12 @@ class Main extends Sprite {
 		// otherwise return the point
 		return isFound ? randomApple() : new Point(x, y);
 
+	}
+
+	public function pointsOverlap(point1:Point, point2:Point):Bool {
+		trace(point1, point2);
+		if(point1.x == point2.x && point1.y == point2.y) return true;
+		else return false;
 	}
 
 	public function keyDown(event:KeyboardEvent):Void {
