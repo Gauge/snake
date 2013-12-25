@@ -13,8 +13,8 @@ import openfl.Assets;
 
 class Main extends Sprite {
 
-	public static var BOARDROWS = 40;
-	public static var BOARDCOLS = 40;
+	public static var BOARDROWS = 25;
+	public static var BOARDCOLS = 25;
 	static var GAMESPEED = 5; // tiles per second
 	public static var TILESIZE = 6;
 
@@ -30,6 +30,7 @@ class Main extends Sprite {
 	static var GAMEOVER = 3;
 	var gameState:Int;
 	var gameText:String;
+	var gameSpeed:Int;
 
 	// graphic and display
 	var appleGraphic:Sprite;
@@ -51,6 +52,7 @@ class Main extends Sprite {
 
 	public function new () {
 		super();
+		gameSpeed = 10;
 		gameText = "SNAKE";
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		appleEatten = [];
@@ -66,7 +68,7 @@ class Main extends Sprite {
 
 	private function render(event:Event):Void {
 		if (gameState != GAMEPAUSED){
-			if (frames == 15){
+			if (frames == gameSpeed){
 				updateSnake();
 				drawApple();
 				drawSnake();
@@ -178,10 +180,13 @@ class Main extends Sprite {
 	}
 
 	private function checkForApple(){
-		//trace(snake[0]+" "+apple);
 		if(pointsOverlap(snake[snake.length-1], apple)){
 			appleEatten.insert(0, apple);
 			apple = randomApple();
+			score++;
+			if (score % 5 == 0){
+				gameSpeed = (gameSpeed > 1) ? gameSpeed-- : gameSpeed;
+			}
 		}
 	}
 
