@@ -42,13 +42,13 @@ class Main extends Sprite {
 
 	var apple:Point;
 	var appleEatten:Array <Point>;
+	var appleOptions:Array <Point>;
 
 	var snake:Array <Point>;
 	var snakeDirection:Int;
 	var score:Int;
 	var frames:Int;
 	var gameboardCorner:Point;
-
 
 	public function new () {
 		super();
@@ -63,11 +63,25 @@ class Main extends Sprite {
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		appleEatten = [];
 		snakeDirection = RIGHT;
+		loadRandomApples();
 		apple = randomApple();
 		gameState = GAMEPLAY;
 		score = 0;
 		frames = 5;
 		drawGUI();
+	}
+
+	private function loadRandomApples() {
+		appleOptions = [];
+		for (x in 0...BOARDROWS) {
+			for (y in 0...BOARDCOLS){
+				appleOptions.push(new Point(x, y));
+			}
+		}
+		
+		for (section in snake) {
+			updateRandomApple(section, null);
+		}
 	}
 
 	private function render(event:Event):Void {
@@ -84,7 +98,7 @@ class Main extends Sprite {
 		}
 
 	}
-	
+
 	public function drawGUI():Void {
 		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
 		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
@@ -167,31 +181,17 @@ class Main extends Sprite {
 		y = Math.floor(snake[snake.length-1].y+yOffset);
 
 		if (isValidMove(x, y)){
-			snake.push(new Point(x, y));
-			snake.shift();
+			var newpoint = new Point(x, y);
+			snake.push(newpoint);
+			var oldpoint = snake.shift();
+			updateRandomApple(newpoint, oldpoint);
 			checkForApple();
 			growSnake();
+
 		} 
 		else {
-			gameState = GAMEOVER;
+			killGame();
 		}
-	}
-
-	// checks to see if the location given is within the bounds of the board
-	// and is not occupied by a snake piece
-	private function isValidMove(x:Int, y:Int):Bool {
-		if (x >= 0 && x < BOARDROWS &&
-			y >= 0 && y < BOARDCOLS){
-			for (i in 0...snake.length){
-				if (snake[i].x == x && snake[i].y == y){
-					killGame();
-					return false;
-				}
-			}
-			return true;
-		} 
-		return false;
-		killGame();
 	}
 
 	private function killGame(){
@@ -201,7 +201,21 @@ class Main extends Sprite {
 
 	}
 
-	private function checkForApple(){
+	// checks to see if the location given is within the bounds of the board
+    // and is not occupied by a snake piece
+    private function isValidMove(x:Int, y:Int):Bool {
+        if (x >= 0 && x < BOARDROWS && y >= 0 && y < BOARDCOLS){
+            for (i in 0...snake.length){
+                if (snake[i].x == x && snake[i].y == y){
+                    return false;
+                }
+            }
+            return true;
+        } 
+        return false;
+    }
+
+	private function checkForApple() {
 		if(pointsOverlap(snake[snake.length-1], apple)){
 			appleEatten.insert(0, apple);
 			apple = randomApple();
@@ -213,22 +227,17 @@ class Main extends Sprite {
 		}
 	}
 
-	private function randomApple():Point {
-		// get random location
-		var x = Std.random(BOARDROWS);
-		var y = Std.random(BOARDCOLS);
-		// check to see if there is a snake at that location
-		var isFound = false;
-		for (i in 0...snake.length){
-			if (snake[i].x == x && snake[i].y == y) {
-				isFound = true;
-				break;
-			}
-		}
-		// if the snake exists there get a new point
-		// otherwise return the point
-		return isFound ? randomApple() : new Point(x, y);
 
+	private function updateRandomApple(newpoint:Point, oldpoint:Point) {
+		appleOptions.remove(newpoint);
+		if (oldpoint != null) {
+			appleOptions.push(oldpoint);
+		}
+	}
+
+	private function randomApple():Point {
+		var pointIndex = Std.random(appleOptions.length);
+		return appleOptions[pointIndex];
 	}
 
 	private function pointsOverlap(point1:Point, point2:Point):Bool {
@@ -240,6 +249,7 @@ class Main extends Sprite {
 		for (i in 0...appleEatten.length){
 			if(pointsOverlap(appleEatten[i], snake[0])){
 				snake.insert(0, appleEatten[i]);
+				updateRandomApple(appleEatten[i], null);
 				appleEatten.remove(appleEatten[i]);
 			}
 		}
