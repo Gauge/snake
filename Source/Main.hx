@@ -86,9 +86,8 @@ class Main extends Sprite {
 		gameBackground.graphics.drawRect(gamePosition.x, gamePosition.y, gameSize.x, gameSize.y);
 		addChild(gameBackground);
 
-		var titleSize = new Point(gameSize.x - 80, 40);
+		var titleSize = new Point(gameSize.x , 40);
 		var titlePosition = new Point(gamePosition.x, gamePosition.y - 50);
-
 
 		titleBox = new Sprite();
 		titleBox.graphics.beginFill(0xA8A8A8, 1.0);
@@ -106,8 +105,7 @@ class Main extends Sprite {
 		titleText.text = GAMENAME;
 		titleBox.addChild(titleText);
 
-
-		//var scoreSize = new Point(titlePosition.x + )
+		//var scoreBoxSize = new Point(titlePosition.x + );
 	}
 
 	public function drawSnake():Void {
