@@ -52,6 +52,12 @@ class Main extends Sprite {
 
 	public function new () {
 		super();
+		loadGame();
+		stage.addEventListener (Event.ENTER_FRAME, render);
+		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
+	}
+
+	private function loadGame():Void {
 		gameSpeed = 5;
 		gameText = "SNAKE";
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
@@ -62,12 +68,10 @@ class Main extends Sprite {
 		score = 0;
 		frames = 5;
 		drawGUI();
-		stage.addEventListener (Event.ENTER_FRAME, render);
-		stage.addEventListener (KeyboardEvent.KEY_DOWN, keyDown);
 	}
 
 	private function render(event:Event):Void {
-		if (gameState != GAMEPAUSED){
+		if (gameState == GAMEPLAY){
 			if (frames == gameSpeed){
 				updateSnake();
 				drawGUI();
@@ -102,7 +106,7 @@ class Main extends Sprite {
 
 		var titleText = new TextField();
 		var textFormat = new TextFormat();
-		titleText.width = titleSize.x - 80;
+		titleText.width = titleSize.x - 70;
 		titleText.height = titleSize.y + 10;
 		titleText.x = titlePosition.x;
 		titleText.y = titlePosition.y + 5;
@@ -180,12 +184,21 @@ class Main extends Sprite {
 			y >= 0 && y < BOARDCOLS){
 			for (i in 0...snake.length){
 				if (snake[i].x == x && snake[i].y == y){
+					killGame();
 					return false;
 				}
 			}
 			return true;
 		} 
 		return false;
+		killGame();
+	}
+
+	private function killGame(){
+		gameState = GAMEOVER;
+		gameText = "GAMEOVER ...";
+		drawGUI();
+
 	}
 
 	private function checkForApple(){
@@ -196,9 +209,7 @@ class Main extends Sprite {
 			
 			if (score % 5 == 0){
 				gameSpeed = (gameSpeed > 1) ? gameSpeed - 1 : gameSpeed;
-				trace('subtracting gameSpeed');
 			}
-			trace(score + "_" + gameSpeed);
 		}
 	}
 
@@ -251,6 +262,9 @@ class Main extends Sprite {
 			drawSnake();
 			drawApple();
 		}
+		if (event.keyCode == Keyboard.ENTER){
+			if(gameState == GAMEOVER) resetGame();
+		}
 		if (event.keyCode == Keyboard.A){
 			snakeDirection = ((snakeHead.x-1) != snakeNeck.x) ? LEFT : snakeDirection;
 		}
@@ -275,5 +289,9 @@ class Main extends Sprite {
 		if (event.keyCode == Keyboard.RIGHT){
 			snakeDirection = ((snakeHead.x+1) != snakeNeck.x) ? RIGHT : snakeDirection;
 		}
-	}	
+	}
+
+	private function resetGame(){
+		loadGame();
+	}
 }
