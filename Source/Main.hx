@@ -179,9 +179,7 @@ class Main extends Sprite {
 	}
 
 	private function checkForApple(){
-		//trace(snake[0]+" "+apple);
 		if(pointsOverlap(snake[snake.length-1], apple)){
-			trace("eatting");
 			if(appleEatten == null) appleEatten = apple;
 			apple = randomApple();
 		}
@@ -211,7 +209,6 @@ class Main extends Sprite {
 	}
 
 	private function growSnake(){
-		trace('trying hard to grow big and strong');
 		if(pointsOverlap(appleEatten, snake[0])){
 			snake.insert(0, appleEatten);
 			appleEatten = null;
