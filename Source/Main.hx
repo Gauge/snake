@@ -52,7 +52,7 @@ class Main extends Sprite {
 
 	public function new () {
 		super();
-		gameSpeed = 10;
+		gameSpeed = 5;
 		gameText = "SNAKE";
 		snake = [new Point(0, 0), new Point(1, 0), new Point(2, 0)];
 		appleEatten = [];
@@ -70,8 +70,10 @@ class Main extends Sprite {
 		if (gameState != GAMEPAUSED){
 			if (frames == gameSpeed){
 				updateSnake();
+				drawGUI();
 				drawApple();
 				drawSnake();
+
 				frames = 0;
 			}
 			frames++;
@@ -79,7 +81,7 @@ class Main extends Sprite {
 
 	}
 	
-	private function drawGUI():Void {
+	public function drawGUI():Void {
 		var screenSize = new Point(stage.stageWidth, stage.stageHeight);
 		var gameSize = new Point (TILESIZE * BOARDCOLS, TILESIZE * BOARDROWS);
 		var gamePosition = new Point((screenSize.x / 2) - (gameSize.x / 2), (screenSize.y / 2) - (gameSize.y / 2));
@@ -109,16 +111,16 @@ class Main extends Sprite {
 		titleText.text = gameText;
 		titleBox.addChild(titleText);
 
-		var scoreText = new TextField();
+		var scoreBox = new TextField();
 		var scoreFormat = new TextFormat();
-		scoreText.width = 50;
-		scoreText.height = 60;
-		scoreText.x = titleText.x + titleText.width;
-		scoreText.y = titlePosition.y;
+		scoreBox.width = 50;
+		scoreBox.height = 60;
+		scoreBox.x = titleText.x + titleText.width;
+		scoreBox.y = titlePosition.y;
 		scoreFormat.align = TextFormatAlign.CENTER;
-		scoreText.defaultTextFormat = scoreFormat;
-		scoreText.text = "Score: " + score;
-		titleBox.addChild(scoreText);
+		scoreBox.defaultTextFormat = scoreFormat;
+		scoreBox.text = "Score: " + score;
+		addChild(scoreBox);
 	}
 
 	private function drawSnake():Void {
@@ -191,9 +193,12 @@ class Main extends Sprite {
 			appleEatten.insert(0, apple);
 			apple = randomApple();
 			score++;
+			
 			if (score % 5 == 0){
-				gameSpeed = (gameSpeed > 1) ? gameSpeed-- : gameSpeed;
+				gameSpeed = (gameSpeed > 1) ? gameSpeed - 1 : gameSpeed;
+				trace('subtracting gameSpeed');
 			}
+			trace(score + "_" + gameSpeed);
 		}
 	}
 
