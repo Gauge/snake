@@ -217,29 +217,31 @@ class Main extends Sprite {
 	}
 
 	public function keyDown(event:KeyboardEvent):Void {
+		var snakeHead = snake[snake.length-1];
+		var snakeNeck = snake[snake.length-2];
 		if (event.keyCode == Keyboard.A){
-			snakeDirection = (snakeDirection != RIGHT) ? LEFT : RIGHT;
+			snakeDirection = ((snakeHead.x-1) != snakeNeck.x) ? LEFT : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.W){
-			snakeDirection = (snakeDirection != DOWN) ? UP : DOWN;
+			snakeDirection = ((snakeHead.y-1) != snakeNeck.y) ? UP : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.S){
-			snakeDirection = (snakeDirection != UP) ? DOWN : UP;
+			snakeDirection = ((snakeHead.y+1) != snakeNeck.y) ? DOWN : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.D){
-			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
+			snakeDirection = ((snakeHead.x+1) != snakeNeck.x) ? RIGHT : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.LEFT){
-			snakeDirection = (snakeDirection != RIGHT) ? LEFT : RIGHT;
+			snakeDirection = ((snakeHead.x-1) != snakeNeck.x) ? LEFT : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.UP){
-			snakeDirection = (snakeDirection != DOWN) ? UP : DOWN;
+			snakeDirection = ((snakeHead.y-1) != snakeNeck.y) ? UP : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.DOWN){
-			snakeDirection = (snakeDirection != UP) ? DOWN : UP;
+			snakeDirection = ((snakeHead.y+1) != snakeNeck.y) ? DOWN : snakeDirection;
 		}
 		if (event.keyCode == Keyboard.RIGHT){
-			snakeDirection = (snakeDirection != LEFT) ? RIGHT : LEFT;
+			snakeDirection = ((snakeHead.x+1) != snakeNeck.x) ? RIGHT : snakeDirection;
 		}
 
 
